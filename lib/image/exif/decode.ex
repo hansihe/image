@@ -336,19 +336,11 @@ defmodule Image.Exif.Decode do
   defp ycbcr_positioning(other), do: "Unknown (#{other})"
 
   @spec version(charlist() | binary()) :: binary()
-  defp version([?0, major, minor1, minor2]) do
-    <<major, ?., minor1, minor2>>
+  defp version([_ | _] = list) do
+    to_string(list)
   end
 
-  defp version([major1, major2, minor1, minor2]) do
-    <<major1, major2, ?., minor1, minor2>>
-  end
-
-  defp version(<<?0, major, minor1, minor2>>) do
-    <<major, ?., minor1, minor2>>
-  end
-
-  defp version(<<major1, major2, minor1, minor2>>) do
-    <<major1, major2, ?., minor1, minor2>>
+  defp version(binary) when is_binary(binary) do
+    binary
   end
 end
